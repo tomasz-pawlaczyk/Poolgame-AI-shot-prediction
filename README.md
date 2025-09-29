@@ -1,10 +1,14 @@
-# Pooltable analysis and prediction system
+# Poolgame analysis and prediction system
 
-An AI-powered system that analyzes pool (billiards) table images. It combines computer vision for ball and table recognition with mathematic formulas to suggest the best move possible
+An AI-powered system that analyzes pool (billiards) table images. It combines computer vision for ball and table recognition with mathematic formulas to suggest the best move possible.
 
 <hr>
 
 ## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Math-backed Code](Math-backed-code)
 
 ## Overview
 
@@ -33,6 +37,10 @@ This project aims to assist billiard players of all skill levels by providing AI
 | ✅   | **AI Ball Detection** | Our YOLOv5 model detects and classifies all balls with over 92% accuracy, handling overlaps and difficult lighting |
 | ✅   | **Shot Recommendation** | Generates and ranks hundreds of possible shots based on angle, distance, and complexity to suggest the 3 best options. |
 | ✅   | **Physics-Based Simulation** | Implements a simplified physical model for cue ball trajectory prediction after collision, accounting for friction |
+
+## Math-backed code
+
+matematyka
 
 ## Methodology & Code Deep Dive
 
