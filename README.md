@@ -9,6 +9,7 @@ An AI-powered system that analyzes pool (billiards) table images. It combines co
 - [Overview](#overview)
 - [Key Features](#key-features)
 - [Math-backed Code](#Math-backed-code)
+- [Methodology & Code Deep Dive](#methodology--code-deep-dive)
 
 ## Overview
 
