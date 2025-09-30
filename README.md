@@ -29,6 +29,7 @@ This project aims to assist billiard players of all skill levels by providing AI
 
 (obraz)
 
+
 ## Key Features
 
 |     | Feature | Description |
