@@ -5,6 +5,7 @@ An AI-powered system that analyzes pool (billiards) table images. It combines co
 <hr>
 
 
+
 ## Table of Contents
 
 - [Overview](#overview)
