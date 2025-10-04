@@ -32,6 +32,16 @@ This project aims to assist billiard players of all skill levels by providing AI
 
 (obraz)
 
+![obraz](img/zestawienie%20stolu%20tlo.png)
+![obraz](img/zestawienie%20stolu.png)
+
+
+
+
+
+
+
+
 
 ## Key Features
 
