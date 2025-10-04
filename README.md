@@ -33,11 +33,11 @@ This project aims to assist billiard players of all skill levels by providing AI
 (obraz)
 
 ![gora](img/gora.png)
-### 1. Input photo      2. Transformation      3. Color
-###                                           normalisation
+### ```1. Input photo      2. Transformation      3. Color```
+### ```                                          normalisation```
 ![gora](img/dol.png)
-### 4. Balls      5. Shots      6. Shots      7. Final
-### detection    calculation    validation    suggestion
+### ```4. Balls      5. Shots      6. Shots      7. Final```
+### ```detection    calculation    validation    suggestion```
 
 
 
