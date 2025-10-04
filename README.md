@@ -30,8 +30,13 @@ This project aims to assist billiard players of all skill levels by providing AI
 6. Recommends the best shots for the player and displays them
   
 
-(obraz)
+![zestwienie](img/zestawienie%20napisy.png)
 
+
+
+
+
+<!--
 ![gora](img/gora.png)
 **&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;1. Input photo &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;2. Transformation &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;3. Color**
 **&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;normalisation**
@@ -39,7 +44,7 @@ This project aims to assist billiard players of all skill levels by providing AI
 ![gora](img/dol.png)
 **&emsp;&emsp;4. Balls &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 5. Shots &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 6. Shots &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &emsp;&emsp;7. Final**
 **&emsp;&emsp; &emsp;&emsp;detection &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;calculation &emsp;&emsp;&emsp;&emsp; &emsp;&emsp;&emsp;validation &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; suggestion**
-
+-->
 
 
 
