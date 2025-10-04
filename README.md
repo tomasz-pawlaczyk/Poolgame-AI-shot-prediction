@@ -32,8 +32,12 @@ This project aims to assist billiard players of all skill levels by providing AI
 
 (obraz)
 
-![obraz](img/zestawienie%20stolu%20tlo.png)
-![obraz](img/zestawienie%20stolu.png)
+![gora](img/gora.png)
+### 1. Input photo      2. Transformation      3. Color
+###                                           normalisation
+![gora](img/dol.png)
+### 4. Balls      5. Shots      6. Shots      7. Final
+### detection    calculation    validation    suggestion
 
 
 
