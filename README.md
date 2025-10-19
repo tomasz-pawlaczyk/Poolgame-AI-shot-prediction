@@ -103,4 +103,32 @@ matematyka
   ```
   
 
-       2. **Ball Detection & Classification with YOLO**
+ 2. **Ball Detection & Classification with YOLO**
+
+
+
+
+4. **Trajectory visualization**
+
+    Visualizes the cue ball trajectory after collision with direction indicated.
+    ```python
+    def draw_cue_trajectory(img, shot):
+        """Draws the cue ball trajectory after collision"""
+        
+        start_point, end_point = shot.get_cue_trajectory_line(200)
+    
+        # Draw the trajectory line (blue color)
+        cv.line(img, start_point, end_point, (255, 0, 0), 3)
+    
+        # Add an arrow indicating the direction
+        angle_rad = math.radians(shot.get_cue_angle_after_collision())
+        arrow_length = 15
+        arrow_angle = math.radians(25)
+    
+        # Calculate the points of the arrowhead
+        arrow_x1 = end_point[0] - arrow_length * math.cos(angle_rad - arrow_angle)
+        arrow_y1 = end_point[1] - arrow_length * math.sin(angle_rad - arrow_angle)
+    
+        cv.line(img, end_point, (int(arrow_x1), int(arrow_y1)), (255, 0, 0), 3)
+    ```
+
