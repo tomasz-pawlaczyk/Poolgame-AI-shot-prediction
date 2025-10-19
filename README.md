@@ -140,8 +140,36 @@ $$
 
 This simplified physical model estimates post-collision trajectories and velocities, accounting for friction, rotation, and inelastic impact effects.
 
+**Math to Code Implementation (part)**
+
+```python
+def get_true_angle(self):
+    """Calculates the angle between the cue ball and the ghost ball position"""
+    white_x, white_y = self.__white_dir["y1"][0]
+    dx = self.__ghost["x"] - white_x
+    dy = self.__ghost["y"] - white_y
+    return math.degrees(math.atan2(dy, dx))
 
 
+def v_after_collision(self):
+    v1 = self.__white.get_v()
+
+    # Apply friction effect
+    v1_f = math.sqrt(max(0, v1 * v1 - mu * g * self.__y2length))
+
+    # Compute velocity components after collision
+    # considering the coefficient of restitution (COR)
+    v1_bx = self.__white.get_vx()
+    v1_by = self.__white.get_vy()
+
+    # Simplified elastic collision model
+    v1_ay = 0.5 * (1 - COR) * v1_by
+    v2_ay = 0.5 * (1 + COR) * v2_by
+
+    self.__white.set_v_by_components(v1_ax, v1_ay)
+    self.__target.set_v_by_components(v2_ax, v2_ay)
+
+```
 
 
 
