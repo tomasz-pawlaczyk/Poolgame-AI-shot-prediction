@@ -62,7 +62,143 @@ This project aims to assist billiard players of all skill levels by providing AI
 
 ## Math-backed code
 
-matematyka
+
+# 3.2 Physics of Billiard Ball Collision (Summary)
+
+# 3.2 Physics of Billiard Ball Collision (Summary)
+
+The motion of a billiard ball combines energy transfer from the cue, friction, rotational motion, and collision dynamics.  
+The initial energy of the cue ball (Ep) is divided into kinetic energy (Ek) and frictional work (Wt):
+
+Ep = Ek + Wt
+
+For a rolling sphere:
+Ek = (1/2) * m * v² + (1/2) * I * ω² = (7/10) * m * v²  
+v = sqrt(10 * Ek / (7 * m))
+
+During motion, the ball loses speed due to friction:
+Ft = -μ * g * m  
+a = -μ * g  
+v = sqrt(v₀² - 2 * μ * g * d)
+
+The collision is described by the coefficient of restitution (COR ≈ 0.8).  
+Along the collision axis (y-axis):
+
+v1yₖ = (1 - COR)/2 * v1yₚ  
+v2yₖ = (1 + COR)/2 * v1yₚ
+
+The cue ball keeps its horizontal velocity:  
+v1xₖ = v1xₚ, and the target ball starts from rest: v2xₖ = 0.
+
+The new trajectory angle of the cue ball:
+
+θ = arctan( sin(α) / ((1 - COR) * cos(α)) )
+
+The distance traveled after the collision:
+
+d = (v² - v₀²) / (2 * (-μ) * g)
+
+Final coordinates of the cue ball after it stops:
+
+x' = x - d / sqrt( tan²(θ - α) + 1 )  
+y' = y - (d * tan(θ - α)) / sqrt( tan²(θ - α) + 1 )
+
+This simplified physical model estimates post-collision trajectories and velocities, accounting for friction, rotation, and inelastic impact effects.
+
+This sentence uses $\` and \`$ delimiters to show math inline: $`\sqrt{3x-1}+(1+x)^2`$
+
+
+
+
+
+
+# 3.2 Physics of Billiard Ball Collision (Summary)
+
+The motion of a billiard ball combines energy transfer from the cue, friction, rotational motion, and collision dynamics.  
+The initial energy of the cue ball ($E_p$) is divided into kinetic energy ($E_k$) and frictional work ($W_t$):
+
+$$
+E_p = E_k + W_t
+$$
+
+For a rolling sphere:
+
+$$
+E_k = \frac{1}{2} m v^2 + \frac{1}{2} I \omega^2 = \frac{7}{10} m v^2
+$$
+
+$$
+v = \sqrt{\frac{10 E_k}{7 m}}
+$$
+
+During motion, the ball loses speed due to friction:
+
+$$
+F_t = -\mu g m
+$$
+
+$$
+a = -\mu g
+$$
+
+$$
+v = \sqrt{v_0^2 - 2 \mu g d}
+$$
+
+The collision is described by the coefficient of restitution (COR ≈ 0.8).  
+Along the collision axis (y-axis):
+
+$$
+v_{1y_k} = \frac{1 - COR}{2} \, v_{1y_p}
+$$
+
+$$
+v_{2y_k} = \frac{1 + COR}{2} \, v_{1y_p}
+$$
+
+The cue ball keeps its horizontal velocity:
+
+$$
+v_{1x_k} = v_{1x_p}
+$$
+
+and the target ball starts from rest:
+
+$$
+v_{2x_k} = 0
+$$
+
+The new trajectory angle of the cue ball:
+
+$$
+\theta = \arctan\left( \frac{\sin(\alpha)}{(1 - COR)\cos(\alpha)} \right)
+$$
+
+The distance traveled after the collision:
+
+$$
+d = \frac{v^2 - v_0^2}{2(-\mu) g}
+$$
+
+Final coordinates of the cue ball after it stops:
+
+$$
+x' = x - \frac{d}{\sqrt{\tan^2(\theta - \alpha) + 1}}
+$$
+
+$$
+y' = y - \frac{d \tan(\theta - \alpha)}{\sqrt{\tan^2(\theta - \alpha) + 1}}
+$$
+
+This simplified physical model estimates post-collision trajectories and velocities, accounting for friction, rotation, and inelastic impact effects.
+
+This sentence uses $\` and \`$ delimiters to show math inline: $`\sqrt{3x-1}+(1+x)^2`$
+
+
+
+
+
+
 
 ## Methodology & Code Deep Dive
 
