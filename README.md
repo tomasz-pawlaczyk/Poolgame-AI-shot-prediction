@@ -67,40 +67,41 @@ matematyka
 ## Methodology & Code Deep Dive
 
 1. **Perspective Correction & Color Normalization** 
-  Before analysis, the image is standardized. We detect the table's corner pockets using Hough Circle Transform and warp the perspective to a consistent top-down view. Colors are then normalized based on the white ball to counteract different lighting conditions.
+    
+    Before analysis, the image is standardized. We detect the table's corner pockets using Hough Circle Transform and warp the perspective to a consistent top-down view. Colors are then normalized based on the white ball to counteract different lighting conditions.
   
-  ```python
-  # Snippet: Color Normalization using the white ball
-  from PIL import Image, ImageStat
-  import numpy as np
-  
-  def normalize_colors(img, white_ball_center, white_ball_radius):
-      """ Normalizes image colors using the white ball as a reference. """
-      # Extract region of interest (ROI) around the white ball
-      x, y = white_ball_center
-      r = white_ball_radius
-      roi = img.crop((x-r, y-r, x+r, y+r))
-  
-      # Convert ROI to numpy array and create a circular mask
-      roi_np = np.array(roi)
-      h, w = roi_np.shape[:2]
-      Y, X = np.ogrid[:h, :w]
-      dist_from_center = np.sqrt((X - w/2)**2 + (Y - h/2)**2)
-      mask = dist_from_center <= r
-  
-      # Get pixels within the white ball using the mask
-      pixels = roi_np[mask]
-  
-      # Use a high percentile to avoid shadows and get the "true" white
-      ref_color = np.percentile(pixels, 95, axis=0)
-  
-      # Calculate scaling factors for each RGB channel
-      scale_factors = 255.0 / ref_color
-  
-      # Apply scaling to the entire image
-      img_normalized = (img * scale_factors).clip(0, 255).astype(np.uint8)
-      return img_normalized
-  ```
+      ```python
+      # Snippet: Color Normalization using the white ball
+      from PIL import Image, ImageStat
+      import numpy as np
+      
+      def normalize_colors(img, white_ball_center, white_ball_radius):
+          """ Normalizes image colors using the white ball as a reference. """
+          # Extract region of interest (ROI) around the white ball
+          x, y = white_ball_center
+          r = white_ball_radius
+          roi = img.crop((x-r, y-r, x+r, y+r))
+      
+          # Convert ROI to numpy array and create a circular mask
+          roi_np = np.array(roi)
+          h, w = roi_np.shape[:2]
+          Y, X = np.ogrid[:h, :w]
+          dist_from_center = np.sqrt((X - w/2)**2 + (Y - h/2)**2)
+          mask = dist_from_center <= r
+      
+          # Get pixels within the white ball using the mask
+          pixels = roi_np[mask]
+      
+          # Use a high percentile to avoid shadows and get the "true" white
+          ref_color = np.percentile(pixels, 95, axis=0)
+      
+          # Calculate scaling factors for each RGB channel
+          scale_factors = 255.0 / ref_color
+      
+          # Apply scaling to the entire image
+          img_normalized = (img * scale_factors).clip(0, 255).astype(np.uint8)
+          return img_normalized
+      ```
   
 
  2. **Ball Detection & Classification with YOLO**
