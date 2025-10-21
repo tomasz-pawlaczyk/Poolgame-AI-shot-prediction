@@ -64,7 +64,7 @@ This project aims to assist billiard players of all skill levels by providing AI
 do uzupełnienia:
 - opis tego jak program wykrywa bile przez YOLO
    można tez zawrzec odrzucone sposoby
-- tworzenie wizualizacji
+- tworzenie wizualizacji 
 
 
 
