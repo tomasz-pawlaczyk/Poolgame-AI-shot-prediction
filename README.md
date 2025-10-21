@@ -60,6 +60,18 @@ This project aims to assist billiard players of all skill levels by providing AI
 | ✅   | **Shot Recommendation** | Generates and ranks hundreds of possible shots based on angle, distance, and complexity to suggest the 3 best options. |
 | ✅   | **Physics-Based Simulation** | Implements a simplified physical model for cue ball trajectory prediction after collision, accounting for friction |
 
+
+do uzupełnienia:
+- opis tego jak program wykrywa bile przez YOLO
+   można tez zawrzec odrzucone sposoby
+- tworzenie wizualizacji
+
+
+
+
+
+
+
 ## Math-backed code
 
 The motion of a billiard ball combines energy transfer from the cue, friction, rotational motion, and collision dynamics.  
