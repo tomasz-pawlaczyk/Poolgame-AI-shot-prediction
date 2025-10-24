@@ -10,6 +10,7 @@ An AI-powered system that analyzes pool (billiards) table images. It combines co
 
 - [Overview](#overview)
 - [Key Features](#key-features)
+- [Ball Detection with YOLOv5](#ball-detection-with-yolov5)
 - [Math-backed Code](#Math-backed-code)
 - [Methodology & Code Deep Dive](#methodology--code-deep-dive)
 
@@ -66,7 +67,34 @@ do uzupełnienia:
    można tez zawrzec odrzucone sposoby
 - tworzenie wizualizacji stzrałów dla gracza
 - rysunki matma bile
-- 
+
+
+
+
+
+## Ball Detection with YOLOv5
+
+### Model Training & Fine-Tuning
+We implemented a custom YOLOv5 model to solve our ball detection and classification challenges. Starting with the pre-trained YOLOv5 architecture, we fine-tuned it to recognize four specific ball types: `white`, `black`, `solid`, and `striped`.
+
+### Training Process:
+- **Dataset:** Custom dataset with 80/20 train/test split
+- **Initial Attempt (30 epochs):** Achieved only 30% precision and 45% recall
+- **Final Training (350 epochs):** Reached **92% precision** and **93.5% recall** after data augmentation and extended training
+
+
+### Model Optimization & Performance
+To enhance detection accuracy, we applied strategic data augmentation through image rotations, expanding our training dataset **4x**. The resulting YOLOv5 model delivered superior performance compared to traditional computer vision methods, excelling in challenging scenarios including blue ball detection, overlapping balls, and varying lighting conditions while maintaining precise classification across all four ball types.
+
+### 📊 Model Performance Metrics
+**Precision:** `90%` | **Recall:** `93.5%` | **F1-Score:** `High`  
+*Optimal balance* | *Complete detection* | *Excellent precision-recall balance*
+
+
+
+
+
+
 
 
 
