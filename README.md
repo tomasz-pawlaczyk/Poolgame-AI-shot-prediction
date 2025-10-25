@@ -63,9 +63,7 @@ This project aims to assist billiard players of all skill levels by providing AI
 
 
 do uzupełnienia:
-- opis tego jak program wykrywa bile przez YOLO
-   można tez zawrzec odrzucone sposoby
-- tworzenie wizualizacji stzrałów dla gracza
+- zmienianie obrazu do odpowiedniego wymiaru
 - rysunki matma bile
 
 
@@ -82,7 +80,6 @@ We implemented a custom YOLOv5 model to solve our ball detection and classificat
 - **Initial Attempt (30 epochs):** Achieved only 30% precision and 45% recall
 - **Final Training (350 epochs):** Reached **92% precision** and **93.5% recall** after data augmentation and extended training
 
-
 ### Model Optimization & Performance
 To enhance detection accuracy, we applied strategic data augmentation through image rotations, expanding our training dataset **4x**. The resulting YOLOv5 model delivered superior performance compared to traditional computer vision methods, excelling in challenging scenarios including blue ball detection, overlapping balls, and varying lighting conditions while maintaining precise classification across all four ball types.
 
@@ -91,9 +88,60 @@ To enhance detection accuracy, we applied strategic data augmentation through im
 *Optimal balance* | *Complete detection* | *Excellent precision-recall balance*
 
 
+## Initial Approaches & Evolution
+
+Before settling on YOLOv5, we explored several computer vision techniques that ultimately proved insufficient for reliable ball detection:
+
+1. **HSV Filtering + Hough Transform**
+
+   Our initial approach used HSV color space filtering to isolate balls from the table, followed by Hough Circle detection for position identification. While promising for basic detection, this method consistently failed with blue balls (blending with the table) and struggled with accurate classification - particularly distinguishing solid from striped balls when insufficient white surface was visible due to ball orientation.
+
+
+2. **Canny Edge Detection with Contour Analysis**
+
+   We employed Gaussian blur preprocessing and Canny edge detection to identify ball contours through gradient analysis. The method utilized hysteresis thresholding to eliminate weak edges while preserving strong contours. While theoretically sound, this approach failed in practice due to inconsistent lighting conditions - central balls displayed insufficient edge contrast, while table periphery suffered from shadow interference, leading to unreliable detection across our diverse image dataset.
+
+   <div align="center">
+     <img src="./img/HSV_lewe.png" width="45%" alt="HSV Left" />
+     <span style="margin: 0 40px;"></span>
+     <img src="./img/HSV_prawe.png" width="45%" alt="HSV Right" />
+   </div>
+   <div align="center"><sub> <b>Example result:</b> Failure to detect the blue ball and incorrect classification of the yellow striped ball.</sub></div>
 
 
 
+
+
+
+##  Shot Analysis & Recommendation Engine
+
+### Generating Possible Shots
+The system calculates all geometrically viable shots by analyzing linear trajectories to each pocket. For every ball, both direct paths and single-cushion rebounds are determined, creating potential "ghost ball" positions - the precise spots where the cue ball must contact the target ball for successful potting. The cue ball's path to these positions is then computed, considering both straight paths and bank shots off the rails.
+
+### Filtering Out Impossible Shots
+Physically unplayable shots are automatically eliminated through three key checks:
+- **Blocked paths**: Shots where other balls obstruct the trajectory
+- **Unrealistic angles**: Shots requiring impractically sharp cut angles
+- **Invalid rebounds**: Bank shots where the bounce point overlaps with pockets
+
+### Smart Shot Ranking
+Valid shots are ranked using a sophisticated difficulty score that considers:
+- **Cut angle** (70% weight) - The primary factor affecting shot accuracy
+- **Distance** (20% weight) - Secondary factor for execution difficulty
+- **Bank shots** (10% weight) - increases shot complexity
+
+The system adapts to game strategy by focusing on specific ball types - whether targeting solids, stripes, or the black ball - ensuring recommendations match current objectives.
+<div align="center">
+  <div style="display: inline-block; width: 45%; text-align: center;">
+    <img src="./img/suggestion_lewe.png" width="100%" alt="HSV Left" />
+    <div><sub>Shot recommendations for solid balls</sub></div>
+  </div>
+  <span style="margin: 0 40px;"></span>
+  <div style="display: inline-block; width: 45%; text-align: center;">
+    <img src="./img/suggestion_prawe.png" width="100%" alt="HSV Right" />
+    <div><sub>Shot recommendations for striped balls</sub></div>
+  </div>
+</div>
 
 
 
