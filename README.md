@@ -4,13 +4,12 @@ An AI-powered system that analyzes pool (billiards) table images. It combines co
 
 <hr>
 
-
-
 ## Table of Contents
 
 - [Overview](#overview)
 - [Key Features](#key-features)
 - [Ball Detection with YOLOv5](#ball-detection-with-yolov5)
+- [Shot Analysis & Recommendation Engine](#shot-analysis--recommendation-engine)
 - [Math-backed Code](#Math-backed-code)
 - [Methodology & Code Deep Dive](#methodology--code-deep-dive)
 
@@ -19,137 +18,116 @@ An AI-powered system that analyzes pool (billiards) table images. It combines co
 This project aims to assist billiard players of all skill levels by providing AI-driven shot recommendations. By simply uploading a picture of the pool table, the system:
 
 1. Corrects perspective of the photo
-  
+
 2. Normalises colors for consistent analysis
-  
+
 3. Detects and classifies balls
-  
+
 4. Generates hundreds of possible shots
-  
+
 5. Validates the shots
-  
+
 6. Recommends the best shots for the player and displays them
-  
 
 ![zestwienie](img/zestawienie%20napisy.png)
 
-
-
-
-
-
-
 <!--
 ![gora](img/gora.png)
-**&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;1. Input photo &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;2. Transformation &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;3. Color**
-**&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;normalisation**
+**      1. Input photo         2. Transformation       3. Color**
+**                                   normalisation**
 
 ![gora](img/dol.png)
-**&emsp;&emsp;4. Balls &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 5. Shots &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 6. Shots &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &emsp;&emsp;7. Final**
-**&emsp;&emsp; &emsp;&emsp;detection &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;calculation &emsp;&emsp;&emsp;&emsp; &emsp;&emsp;&emsp;validation &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; suggestion**
+**  4. Balls          5. Shots          6. Shots          7. Final**
+**     detection        calculation         validation        suggestion**
 -->
-
-
-
 
 ## Key Features
 
-|     | Feature | Description |
-| --- | --- | --- |
-| ✅   | **Smart Image Preprocessing** | Automatically corrects perspective and normalises colors for consistent analysis under any lighting conditions |
-| ✅   | **AI Ball Detection** | Our YOLOv5 model detects and classifies all balls with over 92% accuracy, handling overlaps and difficult lighting |
-| ✅   | **Shot Recommendation** | Generates and ranks hundreds of possible shots based on angle, distance, and complexity to suggest the 3 best options. |
-| ✅   | **Physics-Based Simulation** | Implements a simplified physical model for cue ball trajectory prediction after collision, accounting for friction |
-
-
-do uzupełnienia:
-- zmienianie obrazu do odpowiedniego wymiaru
-- rysunki matma bile
-
-
-
-
-
+|     | Feature                       | Description                                                                                                            |
+| --- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| ✅   | **Smart Image Preprocessing** | Automatically corrects perspective and normalises colors for consistent analysis under any lighting conditions         |
+| ✅   | **AI Ball Detection**         | Our YOLOv5 model detects and classifies all balls with over 92% accuracy, handling overlaps and difficult lighting     |
+| ✅   | **Shot Recommendation**       | Generates and ranks hundreds of possible shots based on angle, distance, and complexity to suggest the 3 best options. |
+| ✅   | **Physics-Based Simulation**  | Implements a simplified physical model for cue ball trajectory prediction after collision, accounting for friction     |
 
 ## Ball Detection with YOLOv5
 
 ### Model Training & Fine-Tuning
+
 We implemented a custom YOLOv5 model to solve our ball detection and classification challenges. Starting with the pre-trained YOLOv5 architecture, we fine-tuned it to recognize four specific ball types: `white`, `black`, `solid`, and `striped`.
 
 ### Training Process:
+
 - **Dataset:** Custom dataset with 80/20 train/test split
 - **Initial Attempt (30 epochs):** Achieved only 30% precision and 45% recall
 - **Final Training (350 epochs):** Reached **92% precision** and **93.5% recall** after data augmentation and extended training
 
 ### Model Optimization & Performance
+
 To enhance detection accuracy, we applied strategic data augmentation through image rotations, expanding our training dataset **4x**. The resulting YOLOv5 model delivered superior performance compared to traditional computer vision methods, excelling in challenging scenarios including blue ball detection, overlapping balls, and varying lighting conditions while maintaining precise classification across all four ball types.
 
 ### 📊 Model Performance Metrics
+
 **Precision:** `90%` | **Recall:** `93.5%` | **F1-Score:** `High`  
-*Optimal balance* | *Complete detection* | *Excellent precision-recall balance*
+*Optimal balance* | *Complete detection* | *Excellent precision-recall balance*  
 
+<br>
 
-## Initial Approaches & Evolution
+### Initial Approaches & Evolution
 
 Before settling on YOLOv5, we explored several computer vision techniques that ultimately proved insufficient for reliable ball detection:
 
 1. **HSV Filtering + Hough Transform**
-
+   
    Our initial approach used HSV color space filtering to isolate balls from the table, followed by Hough Circle detection for position identification. While promising for basic detection, this method consistently failed with blue balls (blending with the table) and struggled with accurate classification - particularly distinguishing solid from striped balls when insufficient white surface was visible due to ball orientation.
 
-
 2. **Canny Edge Detection with Contour Analysis**
-
+   
    We employed Gaussian blur preprocessing and Canny edge detection to identify ball contours through gradient analysis. The method utilized hysteresis thresholding to eliminate weak edges while preserving strong contours. While theoretically sound, this approach failed in practice due to inconsistent lighting conditions - central balls displayed insufficient edge contrast, while table periphery suffered from shadow interference, leading to unreliable detection across our diverse image dataset.
 
-   <div align="center">
-     <img src="./img/HSV_lewe.png" width="45%" alt="HSV Left" />
-     <span style="margin: 0 40px;"></span>
-     <img src="./img/HSV_prawe.png" width="45%" alt="HSV Right" />
-   </div>
-   <div align="center"><sub> <b>Example result:</b> Failure to detect the blue ball and incorrect classification of the yellow striped ball.</sub></div>
+<div align="center">
+<p>
+  <img src="./img/HSV_lewe.png" width="220" alt="HSV Left" hspace="40">
+  <img src="./img/HSV_prawe.png" width="220" alt="HSV Right" hspace="40">
+</p>
+</div>
+<div align="center"><sub> <b>Example result:</b> Failure to detect the blue ball and incorrect classification of the yellow striped ball.</sub></div>
 
-
-
-
-
-
-##  Shot Analysis & Recommendation Engine
+## Shot Analysis & Recommendation Engine
 
 ### Generating Possible Shots
+
 The system calculates all geometrically viable shots by analyzing linear trajectories to each pocket. For every ball, both direct paths and single-cushion rebounds are determined, creating potential "ghost ball" positions - the precise spots where the cue ball must contact the target ball for successful potting. The cue ball's path to these positions is then computed, considering both straight paths and bank shots off the rails.
 
 ### Filtering Out Impossible Shots
+
 Physically unplayable shots are automatically eliminated through three key checks:
+
 - **Blocked paths**: Shots where other balls obstruct the trajectory
 - **Unrealistic angles**: Shots requiring impractically sharp cut angles
 - **Invalid rebounds**: Bank shots where the bounce point overlaps with pockets
 
 ### Smart Shot Ranking
+
 Valid shots are ranked using a sophisticated difficulty score that considers:
+
 - **Cut angle** (70% weight) - The primary factor affecting shot accuracy
 - **Distance** (20% weight) - Secondary factor for execution difficulty
 - **Bank shots** (10% weight) - increases shot complexity
 
 The system adapts to game strategy by focusing on specific ball types - whether targeting solids, stripes, or the black ball - ensuring recommendations match current objectives.
+
 <div align="center">
-  <div style="display: inline-block; width: 45%; text-align: center;">
-    <img src="./img/suggestion_lewe.png" width="100%" alt="HSV Left" />
-    <div><sub>Shot recommendations for solid balls</sub></div>
-  </div>
-  <span style="margin: 0 40px;"></span>
-  <div style="display: inline-block; width: 45%; text-align: center;">
-    <img src="./img/suggestion_prawe.png" width="100%" alt="HSV Right" />
-    <div><sub>Shot recommendations for striped balls</sub></div>
-  </div>
+<p>
+  <img src="./img/suggestion_lewe.png" width="30%" alt="HSV Left" />
+  <img src="./img/suggestion_prawe.png" width="30%" alt="HSV Right" />
+</p>
 </div>
-
-
-
-
-
-
-
+<div align="center">
+<p>
+  <div><sub>Shot recommendations for solid balls and striped ballls</sub></div>
+</p>
+</div>
 
 ## Math-backed code
 
@@ -259,77 +237,91 @@ def v_after_collision(self):
 
     self.__white.set_v_by_components(v1_ax, v1_ay)
     self.__target.set_v_by_components(v2_ax, v2_ay)
-
 ```
-
-
 
 ## Methodology & Code Deep Dive
 
 1. **Perspective Correction & Color Normalization** 
-    
+   
     Before analysis, the image is standardized. We detect the table's corner pockets using Hough Circle Transform and warp the perspective to a consistent top-down view. Colors are then normalized based on the white ball to counteract different lighting conditions.
-  
-      ```python
-      # Snippet: Color Normalization using the white ball
-      from PIL import Image, ImageStat
-      import numpy as np
-      
-      def normalize_colors(img, white_ball_center, white_ball_radius):
-          """ Normalizes image colors using the white ball as a reference. """
-          # Extract region of interest (ROI) around the white ball
-          x, y = white_ball_center
-          r = white_ball_radius
-          roi = img.crop((x-r, y-r, x+r, y+r))
-      
-          # Convert ROI to numpy array and create a circular mask
-          roi_np = np.array(roi)
-          h, w = roi_np.shape[:2]
-          Y, X = np.ogrid[:h, :w]
-          dist_from_center = np.sqrt((X - w/2)**2 + (Y - h/2)**2)
-          mask = dist_from_center <= r
-      
-          # Get pixels within the white ball using the mask
-          pixels = roi_np[mask]
-      
-          # Use a high percentile to avoid shadows and get the "true" white
-          ref_color = np.percentile(pixels, 95, axis=0)
-      
-          # Calculate scaling factors for each RGB channel
-          scale_factors = 255.0 / ref_color
-      
-          # Apply scaling to the entire image
-          img_normalized = (img * scale_factors).clip(0, 255).astype(np.uint8)
-          return img_normalized
-      ```
-  
+   
+   ```python
+   # Snippet: Color Normalization using the white ball
+   from PIL import Image, ImageStat
+   import numpy as np
+   
+   def normalize_colors(img, white_ball_center, white_ball_radius):
+       """ Normalizes image colors using the white ball as a reference. """
+       # Extract region of interest (ROI) around the white ball
+       x, y = white_ball_center
+       r = white_ball_radius
+       roi = img.crop((x-r, y-r, x+r, y+r))
+   
+       # Convert ROI to numpy array and create a circular mask
+       roi_np = np.array(roi)
+       h, w = roi_np.shape[:2]
+       Y, X = np.ogrid[:h, :w]
+       dist_from_center = np.sqrt((X - w/2)**2 + (Y - h/2)**2)
+       mask = dist_from_center <= r
+   
+       # Get pixels within the white ball using the mask
+       pixels = roi_np[mask]
+   
+       # Use a high percentile to avoid shadows and get the "true" white
+       ref_color = np.percentile(pixels, 95, axis=0)
+   
+       # Calculate scaling factors for each RGB channel
+       scale_factors = 255.0 / ref_color
+   
+       # Apply scaling to the entire image
+       img_normalized = (img * scale_factors).clip(0, 255).astype(np.uint8)
+       return img_normalized
+   ```
 
- 2. **Ball Detection & Classification with YOLO**
+2. **Ball Categorization**
+   
+   Detected balls are automatically classified into four types—white, black, solid, or striped—based on their dominant color patterns and distribution.
+   
+   ```python
+   def categorize(x, y, img):
+    ball_radius = 23
+   
+    # Create a circular mask for the detected ball
+    ball_mask = np.zeros(img.shape[:2], dtype=np.uint8)
+    cv.circle(ball_mask, (x, y), ball_radius, 255, -1)  # white mask over the ball area
+    isolated_ball = cv.bitwise_and(img, img, mask=ball_mask)
+   
+    # Calculate the dominant color and its ratio
+    color_hsv, color_bgr, ratio = calculate_color(isolated_ball)
+   
+    # Determine the ball type based on color and ratio
+    ball_type = calculate_type(color_hsv, ratio)
+   
+    # Return the ball type and its color (in BGR)
+    return ball_type, color_bgr[0, 0].tolist()
+   ```
 
-
-
-
-4. **Trajectory visualization**
-
+3. **Trajectory visualization**
+   
     Visualizes the cue ball trajectory after collision with direction indicated.
-    ```python
-    def draw_cue_trajectory(img, shot):
-        """Draws the cue ball trajectory after collision"""
-        
-        start_point, end_point = shot.get_cue_trajectory_line(200)
-    
-        # Draw the trajectory line (blue color)
-        cv.line(img, start_point, end_point, (255, 0, 0), 3)
-    
-        # Add an arrow indicating the direction
-        angle_rad = math.radians(shot.get_cue_angle_after_collision())
-        arrow_length = 15
-        arrow_angle = math.radians(25)
-    
-        # Calculate the points of the arrowhead
-        arrow_x1 = end_point[0] - arrow_length * math.cos(angle_rad - arrow_angle)
-        arrow_y1 = end_point[1] - arrow_length * math.sin(angle_rad - arrow_angle)
-    
-        cv.line(img, end_point, (int(arrow_x1), int(arrow_y1)), (255, 0, 0), 3)
-    ```
-
+   
+   ```python
+   def draw_cue_trajectory(img, shot):
+       # Draws the cue ball trajectory after collision
+   
+       start_point, end_point = shot.get_cue_trajectory_line(200)
+   
+       # Draw the trajectory line (blue color)
+       cv.line(img, start_point, end_point, (255, 0, 0), 3)
+   
+       # Add an arrow indicating the direction
+       angle_rad = math.radians(shot.get_cue_angle_after_collision())
+       arrow_length = 15
+       arrow_angle = math.radians(25)
+   
+       # Calculate the points of the arrowhead
+       arrow_x1 = end_point[0] - arrow_length * math.cos(angle_rad - arrow_angle)
+       arrow_y1 = end_point[1] - arrow_length * math.sin(angle_rad - arrow_angle)
+   
+       cv.line(img, end_point, (int(arrow_x1), int(arrow_y1)), (255, 0, 0), 3)
+   ```
