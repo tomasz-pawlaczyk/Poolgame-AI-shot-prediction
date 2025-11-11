@@ -2,6 +2,8 @@
 
 An AI-powered system that analyzes pool (billiards) table images. It combines computer vision for ball and table recognition with mathematic formulas to suggest the best move possible.
 
+This project was developed by a team of 8 for Podstawy Teorii Informacji (Information Theory Basics) under the guidance of [PhD Artur Przelaskowski](https://www.ire.pw.edu.pl/~arturp/) course at WUT MiNI. Source of code and complete development can be found [here](https://github.com/MiNI-Bilard).
+
 <hr>
 
 ## Table of Contents
